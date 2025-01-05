@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloodforged Legacy: Incremental Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1e1e1e;
+            color: #f0f0f0;
+            text-align: center;
+        }
+        header {
+            background: #820000;
+            padding: 20px;
+            font-size: 2rem;
+        }
+        .content {
+            padding: 20px;
+        }
+        button {
+            background: #ff4500;
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ff6347;
+        }
+        .stats {
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+        .upgrade {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #444;
+            background: #2e2e2e;
+            border-radius: 5px;
+        }
+        .changelog {
+            margin: 40px 0;
+            padding: 20px;
+            background: #2e2e2e;
+            border-radius: 5px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .changelog h2 {
+            color: #ff4500;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .changelog ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+        .changelog ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>Bloodforged Legacy</header>
+    <div class="content">
+        <div class="stats">
+            <p>Blood Shards: <span id="bloodShards">0</span></p>
+            <p>Shards per Second: <span id="shardsPerSecond">0</span></p>
+        </div>
+        <button onclick="harvestBlood()">Harvest Blood</button>
+        <div class="upgrades">
+            <div class="upgrade">
+                <p>Upgrade: Ritual Circle (Cost: <span id="circleCost">10</span>)</p>
+                <button onclick="buyRitualCircle()">Buy</button>
+            </div>
+            <div class="upgrade">
+                <p>Upgrade: Blood Altar (Cost: <span id="altarCost">50</span>)</p>
+                <button onclick="buyBloodAltar()">Buy</button>
+            </div>
+        </div>
+        <div class="changelog">
+            <h2>Changelog</h2>
+            <ul>
+                <li><strong>v1.0.0</strong> - Initial Release:
+                    <ul>
+                        <li>Added manual blood harvesting.</li>
+                        <li>Introduced Ritual Circle upgrade.</li>
+                        <li>Introduced Blood Altar upgrade.</li>
+                        <li>Implemented passive income mechanics.</li>
+                    </ul>
+                </li>
+                <li><strong>v1.1.0</strong> - UI Improvements:
+                    <ul>
+                        <li>Added a changelog section.</li>
+                        <li>Enhanced button hover effects.</li>
+                        <li>Improved layout for upgrades.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        let bloodShards = 0;
+        let shardsPerSecond = 0;
+        let ritualCircleCost = 10;
+        let bloodAltarCost = 50;
+        let ritualCircles = 0;
+        let bloodAltars = 0;
+
+        // Update stats display
+        function updateStats() {
+            document.getElementById("bloodShards").textContent = Math.floor(bloodShards);
+            document.getElementById("shardsPerSecond").textContent = shardsPerSecond;
+            document.getElementById("circleCost").textContent = ritualCircleCost;
+            document.getElementById("altarCost").textContent = bloodAltarCost;
+        }
+
+        // Harvest blood manually
+        function harvestBlood() {
+            bloodShards += 1;
+            updateStats();
+        }
+
+        // Buy Ritual Circle
+        function buyRitualCircle() {
+            if (bloodShards >= ritualCircleCost) {
+                bloodShards -= ritualCircleCost;
+                ritualCircles++;
+                shardsPerSecond += 1;
+                ritualCircleCost = Math.ceil(ritualCircleCost * 1.2);
+                updateStats();
+            }
+        }
+
+        // Buy Blood Altar
+        function buyBloodAltar() {
+            if (bloodShards >= bloodAltarCost) {
+                bloodShards -= bloodAltarCost;
+                bloodAltars++;
+                shardsPerSecond += 5;
+                bloodAltarCost = Math.ceil(bloodAltarCost * 1.3);
+                updateStats();
+            }
+        }
+
+        // Passive income loop
+        setInterval(() => {
+            bloodShards += shardsPerSecond / 10; // Update every 100ms
+            updateStats();
+        }, 100);
+    </script>
+</body>
+</html>
