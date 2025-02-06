@@ -19,8 +19,31 @@
             font-size: 2rem;
         }
         .content {
-            padding: 20px;
-        }
+    width: 70%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Smaller screen styles */
+@media (max-width: 768px) {
+    .content {
+        width: 90%;
+    }
+    .button {
+        width: 100%;
+    }
+}
+
+/* Very small screens (mobile) */
+@media (max-width: 480px) {
+    .content {
+        width: 100%;
+        padding: 10px;
+    }
+    .button {
+        font-size: 18px;
+    }
+}
         button {
             background: #ff4500;
             border: none;
@@ -85,6 +108,10 @@
                 <p>Upgrade: Blood Altar (Cost: <span id="altarCost">50</span>)</p>
                 <button onclick="buyBloodAltar()">Buy</button>
             </div>
+				<div class="upgrade">
+                <p>Upgrade: Forged in Shadows (Cost: <span id="forgedCost">300</span>)</p>
+                <button onclick="buyForgedShadows()">Buy</button>
+            </div>
         </div>
         <div class="changelog">
             <h2>Changelog</h2>
@@ -104,6 +131,12 @@
                         <li>Improved layout for upgrades.</li>
                     </ul>
                 </li>
+					<li><strong>v1.1.1</strong> - UI Improvements Again:
+                    <ul>
+                        <li>Introduced Forged in Shadows upgrade.</li>
+                        <li>Improved layout for Responsive Design</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -112,8 +145,10 @@
         let shardsPerSecond = 0;
         let ritualCircleCost = 10;
         let bloodAltarCost = 50;
+		  let forgedInShadowCost = 300;
         let ritualCircles = 0;
         let bloodAltars = 0;
+		  let forgedInShadow = 0;
 
         // Update stats display
         function updateStats() {
@@ -121,6 +156,7 @@
             document.getElementById("shardsPerSecond").textContent = shardsPerSecond;
             document.getElementById("circleCost").textContent = ritualCircleCost;
             document.getElementById("altarCost").textContent = bloodAltarCost;
+				document.getElementById("forgedCost").textContent = forgedInShadowCost;
         }
 
         // Harvest blood manually
@@ -147,6 +183,17 @@
                 bloodAltars++;
                 shardsPerSecond += 5;
                 bloodAltarCost = Math.ceil(bloodAltarCost * 1.3);
+                updateStats();
+            }
+        }
+
+			// Buy Blood Altar
+        function buyForgedShadows() {
+            if (bloodShards >= forgedInShadowCost) {
+                bloodShards -= forgedInShadowCost;
+                forgedInShadow++;
+                shardsPerSecond += 25;
+                forgedInShadowCost = Math.ceil(forgedInShadowCost * 1.3);
                 updateStats();
             }
         }
