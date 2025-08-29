@@ -61,12 +61,26 @@
             font-size: 1.5rem;
         }
         .upgrade {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #444;
-            background: #2e2e2e;
-            border-radius: 5px;
-        }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+        padding: 15px;
+        border: 1px solid #444;
+        background: #2e2e2e;
+        border-radius: 10px;
+    }
+    .upgrade-info {
+        text-align: left;
+    }
+    .upgrade button {
+        min-width: 100px;
+        border-radius: 8px;
+    }
+    button:disabled {
+        background: #444;
+        cursor: not-allowed;
+    }
         .changelog {
             margin: 40px 0;
             padding: 20px;
@@ -101,9 +115,13 @@
         <button onclick="harvestBlood()">Harvest Blood</button>
         <div class="upgrades">
             <div class="upgrade">
-                <p>Upgrade: Ritual Circle (Cost: <span id="circleCost">10</span>)</p>
-                <button onclick="buyRitualCircle()">Buy</button>
-            </div>
+    <div class="upgrade-info">
+        <p><strong>Ritual Circle</strong> (Owned: <span id="circleCount">0</span>)</p>
+        <small>+1 shard/sec</small><br>
+        <small>Cost: <span id="circleCost">10</span></small>
+    </div>
+    <button id="circleBtn" onclick="buyRitualCircle()">Buy</button>
+</div>
             <div class="upgrade">
                 <p>Upgrade: Blood Altar (Cost: <span id="altarCost">50</span>)</p>
                 <button onclick="buyBloodAltar()">Buy</button>
@@ -137,6 +155,12 @@
                         <li>Improved layout for Responsive Design</li>
                     </ul>
                 </li>
+				</li>
+					<li><strong>v1.1.2</strong> - UI Polished:
+                    <ul>
+                        <li>Introduced Owned Count for Upgrades, and more</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -152,12 +176,22 @@
 
         // Update stats display
         function updateStats() {
-            document.getElementById("bloodShards").textContent = Math.floor(bloodShards);
-            document.getElementById("shardsPerSecond").textContent = shardsPerSecond;
-            document.getElementById("circleCost").textContent = ritualCircleCost;
-            document.getElementById("altarCost").textContent = bloodAltarCost;
-				document.getElementById("forgedCost").textContent = forgedInShadowCost;
-        }
+    document.getElementById("bloodShards").textContent = Math.floor(bloodShards);
+    document.getElementById("shardsPerSecond").textContent = shardsPerSecond;
+
+    document.getElementById("circleCost").textContent = ritualCircleCost;
+    document.getElementById("altarCost").textContent = bloodAltarCost;
+    document.getElementById("forgedCost").textContent = forgedInShadowCost;
+
+    document.getElementById("circleCount").textContent = ritualCircles;
+    document.getElementById("altarCount").textContent = bloodAltars;
+    document.getElementById("forgedCount").textContent = forgedInShadow;
+
+    document.getElementById("circleBtn").disabled = bloodShards < ritualCircleCost;
+    document.getElementById("altarBtn").disabled = bloodShards < bloodAltarCost;
+    document.getElementById("forgedBtn").disabled = bloodShards < forgedInShadowCost;
+}
+
 
         // Harvest blood manually
         function harvestBlood() {
