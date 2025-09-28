@@ -19,31 +19,31 @@
             font-size: 2rem;
         }
         .content {
-    width: 70%;
-    margin: 0 auto;
-    padding: 20px;
-}
+            width: 70%;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-/* Smaller screen styles */
-@media (max-width: 768px) {
-    .content {
-        width: 90%;
-    }
-    .button {
-        width: 100%;
-    }
-}
+        /* Smaller screen styles */
+        @media (max-width: 768px) {
+            .content {
+                width: 90%;
+            }
+            .button {
+                width: 100%;
+            }
+        }
 
-/* Very small screens (mobile) */
-@media (max-width: 480px) {
-    .content {
-        width: 100%;
-        padding: 10px;
-    }
-    .button {
-        font-size: 18px;
-    }
-}
+        /* Very small screens (mobile) */
+        @media (max-width: 480px) {
+            .content {
+                width: 100%;
+                padding: 10px;
+            }
+            .button {
+                font-size: 18px;
+            }
+        }
         button {
             background: #ff4500;
             border: none;
@@ -52,6 +52,7 @@
             font-size: 1.2rem;
             margin: 10px;
             cursor: pointer;
+            border-radius: 8px;
         }
         button:hover {
             background: #ff6347;
@@ -61,26 +62,25 @@
             font-size: 1.5rem;
         }
         .upgrade {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0;
-        padding: 15px;
-        border: 1px solid #444;
-        background: #2e2e2e;
-        border-radius: 10px;
-    }
-    .upgrade-info {
-        text-align: left;
-    }
-    .upgrade button {
-        min-width: 100px;
-        border-radius: 8px;
-    }
-    button:disabled {
-        background: #444;
-        cursor: not-allowed;
-    }
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #444;
+            background: #2e2e2e;
+            border-radius: 10px;
+        }
+        .upgrade-info {
+            text-align: left;
+        }
+        .upgrade button {
+            min-width: 100px;
+        }
+        button:disabled {
+            background: #444;
+            cursor: not-allowed;
+        }
         .changelog {
             margin: 40px 0;
             padding: 20px;
@@ -115,22 +115,33 @@
         <button onclick="harvestBlood()">Harvest Blood</button>
         <div class="upgrades">
             <div class="upgrade">
-    <div class="upgrade-info">
-        <p><strong>Ritual Circle</strong> (Owned: <span id="circleCount">0</span>)</p>
-        <small>+1 shard/sec</small><br>
-        <small>Cost: <span id="circleCost">10</span></small>
-    </div>
-    <button id="circleBtn" onclick="buyRitualCircle()">Buy</button>
-</div>
-            <div class="upgrade">
-                <p>Upgrade: Blood Altar (Cost: <span id="altarCost">50</span>)</p>
-                <button onclick="buyBloodAltar()">Buy</button>
+                <div class="upgrade-info">
+                    <p><strong>Ritual Circle</strong> (Owned: <span id="circleCount">0</span>)</p>
+                    <small>+1 shard/sec</small><br>
+                    <small>Cost: <span id="circleCost">10</span></small>
+                </div>
+                <button id="circleBtn" onclick="buyRitualCircle()">Buy</button>
             </div>
-				<div class="upgrade">
-                <p>Upgrade: Forged in Shadows (Cost: <span id="forgedCost">300</span>)</p>
-                <button onclick="buyForgedShadows()">Buy</button>
+
+            <div class="upgrade">
+                <div class="upgrade-info">
+                    <p><strong>Blood Altar</strong> (Owned: <span id="altarCount">0</span>)</p>
+                    <small>+5 shards/sec</small><br>
+                    <small>Cost: <span id="altarCost">50</span></small>
+                </div>
+                <button id="altarBtn" onclick="buyBloodAltar()">Buy</button>
+            </div>
+
+            <div class="upgrade">
+                <div class="upgrade-info">
+                    <p><strong>Forged in Shadows</strong> (Owned: <span id="forgedCount">0</span>)</p>
+                    <small>+25 shards/sec</small><br>
+                    <small>Cost: <span id="forgedCost">300</span></small>
+                </div>
+                <button id="forgedBtn" onclick="buyForgedShadows()">Buy</button>
             </div>
         </div>
+
         <div class="changelog">
             <h2>Changelog</h2>
             <ul>
@@ -149,49 +160,55 @@
                         <li>Improved layout for upgrades.</li>
                     </ul>
                 </li>
-					<li><strong>v1.1.1</strong> - UI Improvements Again:
+                <li><strong>v1.1.1</strong> - UI Improvements Again:
                     <ul>
                         <li>Introduced Forged in Shadows upgrade.</li>
-                        <li>Improved layout for Responsive Design</li>
+                        <li>Improved layout for Responsive Design.</li>
                     </ul>
                 </li>
-				</li>
-					<li><strong>v1.1.2</strong> - UI Polished:
+                <li><strong>v1.1.2</strong> - UI Polished:
                     <ul>
-                        <li>Introduced Owned Count for Upgrades, and more</li>
+                        <li>Introduced Owned Count for Upgrades, and more.</li>
+                    </ul>
+                </li>
+                <li><strong>v1.1.3</strong> - Quality of Life Update:
+                    <ul>
+                        <li>Added Owned count to Blood Altar and Forged in Shadows.</li>
+                        <li>Fixed missing button IDs for upgrade disabling logic.</li>
+                        <li>Polished UI with consistent styling and rounded corners.</li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
+
     <script>
         let bloodShards = 0;
         let shardsPerSecond = 0;
         let ritualCircleCost = 10;
         let bloodAltarCost = 50;
-		  let forgedInShadowCost = 300;
+        let forgedInShadowCost = 300;
         let ritualCircles = 0;
         let bloodAltars = 0;
-		  let forgedInShadow = 0;
+        let forgedInShadow = 0;
 
         // Update stats display
         function updateStats() {
-    document.getElementById("bloodShards").textContent = Math.floor(bloodShards);
-    document.getElementById("shardsPerSecond").textContent = shardsPerSecond;
+            document.getElementById("bloodShards").textContent = Math.floor(bloodShards);
+            document.getElementById("shardsPerSecond").textContent = shardsPerSecond;
 
-    document.getElementById("circleCost").textContent = ritualCircleCost;
-    document.getElementById("altarCost").textContent = bloodAltarCost;
-    document.getElementById("forgedCost").textContent = forgedInShadowCost;
+            document.getElementById("circleCost").textContent = ritualCircleCost;
+            document.getElementById("altarCost").textContent = bloodAltarCost;
+            document.getElementById("forgedCost").textContent = forgedInShadowCost;
 
-    document.getElementById("circleCount").textContent = ritualCircles;
-    document.getElementById("altarCount").textContent = bloodAltars;
-    document.getElementById("forgedCount").textContent = forgedInShadow;
+            document.getElementById("circleCount").textContent = ritualCircles;
+            document.getElementById("altarCount").textContent = bloodAltars;
+            document.getElementById("forgedCount").textContent = forgedInShadow;
 
-    document.getElementById("circleBtn").disabled = bloodShards < ritualCircleCost;
-    document.getElementById("altarBtn").disabled = bloodShards < bloodAltarCost;
-    document.getElementById("forgedBtn").disabled = bloodShards < forgedInShadowCost;
-}
-
+            document.getElementById("circleBtn").disabled = bloodShards < ritualCircleCost;
+            document.getElementById("altarBtn").disabled = bloodShards < bloodAltarCost;
+            document.getElementById("forgedBtn").disabled = bloodShards < forgedInShadowCost;
+        }
 
         // Harvest blood manually
         function harvestBlood() {
@@ -221,7 +238,7 @@
             }
         }
 
-			// Buy Blood Altar
+        // Buy Forged in Shadows
         function buyForgedShadows() {
             if (bloodShards >= forgedInShadowCost) {
                 bloodShards -= forgedInShadowCost;
